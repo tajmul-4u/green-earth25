@@ -52,7 +52,7 @@
         </div>
 
         <div class="flex flex-col justify-center text-center space-y-5 items-center">
-            <h1 class="text-3xl font-bold">Plant a Tree,Grow a Futures</h1>
+            <h1 class="text-2xl md:text-3xl font-bold">Plant a Tree,Grow a Futures</h1>
             <p class="">Join our mission to plant 1 Million trees and make the earth greener for future
                 generations.</p>
             <button
@@ -62,6 +62,77 @@
 
         <div class="hidden md:block"><img src="./assets/hero-leaf2.png" alt=""></div>
     </section>
+
+    <!-- Tree Selection section -->
+    <section id="plant-section" class="py-16">
+        <div class="max-w-7xl mx-auto px-4">
+            <h1 class="text-3xl font-bold text-center mb-12 text-gray-700">Choose Your Trees</h1>
+            <div class="flex flex-col lg:flex-row gap-8">
+                <!-- Categories Sidebar -->
+                <aside class="lg:w-64">
+                    <h3 class="text-xl font-semibold text-gray-600">Categories</h3>
+                    <div id="categories-container" class="space-y-2">
+                        <!-- Categories spinner loading -->
+                        <div id="categories-loading" class="float justify-center py-4">
+                        <div class="spinner"></div>
+
+                        </div>
+                    </div>
+
+                </aside>
+                <!-- Trees Grid -->
+                 <main class="flex-1">
+                    <div id="trees-loading" class="flex justify-center py-12">
+                        <div class="spinner"></div>
+                    </div>
+                    <div id="trees-container" class="grid md:grid-cols-2 lg:grid-cols-3 gap-6 hidden">
+                        <!-- Trees will be loaded here -->
+                    </div>
+                 </main>
+                 <!-- Card side bar -->
+                  <aside class="lg:w-64">
+                    <div class="bg-white p-6 rounded-xl shadow-lg sticky top-4">
+                        <h3 class="text-xl font-semibold mb-4 text-gray-800 text-center">Your categories-container</h3>
+                        <div id="cart-items" class="space-y-3 mb-4">
+                            <p class="text-gray-500 text-center">Your Cart is empty!</p>
+                        </div>
+                        <hr class="my-4">
+                        <div class="flex justify-between items-center font-semibold">
+                            <span>Total:</span>
+                            <span id="cart-total">৳0</span>
+                        </div>
+                    </div>
+                  </aside>
+            </div>
+        </div>
+    </section>
+    
+        <!-- About Your Campaign Section -->
+         <section class="py-16 bg-white">
+            <div class="max-w-6xl mx-auto px-4">
+                <h2 class="text-3xl font-bold text-center mb-12 text-gray-800">About the Campaign</h2>
+                <div class="flex flex-col lg:flex-row items-center gap-12">
+                    <div class="lg:w-1/2">
+                        <img class="w-auto object-cover rounded-lg shadow-lg" src="./assets/about.png" alt="">
+                    </div>
+                    
+                        <div class="lg:w-1/2">
+                            <p class="text-gray-600 text-lg mb-6 leading-relaxed">Green Earth is a global tree plantation initiative
+                                dedicated to fighting climate change.
+                                Since our start, we've planted over 500,000 trees worldwide. By joining our campaign,
+                                you help restore forests, create habitats for wildlife, and combat global warming.</p>
+                            <ul class="text-gray-600 text-lg space-y-2">
+                                <li>* Restoration of natural habitats</li>
+                                <li>* Improvement of air quality</li>
+                                <li>* Support for local communities</li>
+                            </ul>
+                        </div>
+                </div> 
+            </div>
+         </section>
+
+
+    <script src="./script.js"></script>
 </body>
 
 </html>
