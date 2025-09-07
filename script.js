@@ -6,7 +6,11 @@ const treesContainer = document.getElementById("trees-container");
 const treesLoading = document.getElementById("trees-loading");
 const cartItems = document.getElementById("cart-items");
 const cartTotal = document.getElementById("cart-total");
-
+const treeModal = document.getElementById("tree-modal");
+const modalTitle = document.getElementById("modal-title");
+const modalContent = document.getElementById("modal-content");
+const closeModal = document.getElementById("close-modal");
+const donationForm = document.getElementById("donation-form");
 // Global Variable
 let categories = [];
 let plants = [];
@@ -149,6 +153,7 @@ function hideTreesloading()
 
 function renderTrees(treesData)
 {
+
     hideTreesloading();
     if (!treesData || treesData.length === 0)
     {
@@ -273,6 +278,91 @@ function renderCart()
     cartItems.innerHTML = cartHTML;
     cartTotal.textContent = `৳${total}`;
 }
+// Setup event listeners
+function setupEventListeners()
+{
+    // Close modal when clicking the X button
+    closeModal.addEventListener('click', () =>
+    {
+        treeModal.classList.remove('hidden');
+    });
+    // Close modal when clicking outside
+    treeModal.addEventListener('click', (e) =>
+    {
+        if (e.target === treeModal)
+        {
+            treeModal.classList.remove('hidden');
+        }
+    });
+    // Handle donation form submission
+    donationForm.addEventListener('submit', handleDonationSubmit);
+}
+// Open tree details modal
+// Setup modal event listeners
+function setupEventListeners()
+{
+    // Close on X
+    closeModal.addEventListener('click', () =>
+    {
+        treeModal.classList.add('hidden');
+    });
+
+    // Close when clicking outside modal content
+    treeModal.addEventListener('click', (e) =>
+    {
+        if (e.target === treeModal)
+        {
+            treeModal.classList.add('hidden');
+        }
+    });
+}
+
+// Open tree modal
+async function openTreeModal(treeId)
+{
+    console.log("Tree clicked:", treeId);
+    treeModal.classList.remove('hidden'); // Show modal
+    modalTitle.textContent = "Loading...";
+    modalContent.innerHTML = '<p class="text-gray-500 py-8 text-center">Loading...</p>';
+
+    try
+    {
+        const response = await fetch(`https://openapi.programming-hero.com/api/plant/${treeId}`);
+        const data = await response.json();
+        console.log("API Data:", data);
+
+        const tree = data.plants;
+        if (!tree)
+        {
+            modalContent.innerHTML = '<p class="text-red-500 text-center">Tree details not found</p>';
+            return;
+        }
+
+        const categoryName = tree.category || "Unknown";
+
+        modalTitle.textContent = tree.name;
+        modalContent.innerHTML = `
+            <img src="${tree.image}" class="w-full h-64 object-cover rounded-lg mb-4" alt="${tree.name}">
+            <div class="flex justify-between mb-4">
+                <span class="bg-green-100 text-green-700 px-3 py-1 rounded-full text-sm font-medium">${categoryName}</span>
+                <span class="text-2xl font-bold text-green-600">৳${tree.price || 500}</span>
+            </div>
+            <p class="text-gray-600 mb-4">${tree.description || 'No description available.'}</p>
+            ${tree.benefits ? `<p class="text-gray-600 mb-4"><strong>Benefits:</strong> ${tree.benefits}</p>` : ''}
+            <button onclick="addToCart(${tree.id}); treeModal.classList.add('hidden');" 
+                    class="w-full bg-green-600 text-white py-3 rounded-lg hover:bg-green-700 font-semibold">
+                Add to Cart
+            </button>
+        `;
+    } catch (error)
+    {
+        console.error('Error loading tree details:', error);
+        modalContent.innerHTML = '<p class="text-red-500 text-center">Failed to load tree details</p>';
+    }
+}
+
+// Call setup
+setupEventListeners();
 // Show Notificaton
 
 function showNotification(message, type = 'success')
