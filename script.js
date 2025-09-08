@@ -10,7 +10,7 @@ const treeModal = document.getElementById("tree-modal");
 const modalTitle = document.getElementById("modal-title");
 const modalContent = document.getElementById("modal-content");
 const closeModal = document.getElementById("close-modal");
-const donationForm = document.getElementById("donation-form");
+ 
 // Global Variable
 let categories = [];
 let plants = [];
@@ -38,15 +38,16 @@ async function loadCategories()
     }
 
 }
+loadCategories();
 // Render Categories in sidebar
 function renderCategories()
 {
     categoriesLoading.style.display = 'none';
-    let categoriesHTML = `<button class="category-btn text-left w-full px-4 py-2 rounded-lg hover:bg-green-100 active-category" data-category="all">All Trees</button>
+    let categoriesHTML = `<button class="category-btn text-left w-full px-4 py-2 rounded-lg hover:bg-green-600 active-category" data-category="all">All Trees</button>
 `;
     categories.forEach(category =>
     {
-        categoriesHTML += ` <button class="category-btn text-left w-full px-4 py-2 rounded-lg hover:bg-green-100" data-category="${category.id}">${category.category_name}</button>
+        categoriesHTML += ` <button class="category-btn text-left w-full px-4 py-2 rounded-lg hover:bg-green-600" data-category="${category.id}">${category.category_name}</button>
 `;
 
 
@@ -66,21 +67,28 @@ function renderCategories()
 }
 
 // Handle Category Section
-function selectCategory(categoryId, buttonElement)
+function selectCategory(categoryId, clickedBtn)
 {
     // Update categories section
     document.querySelectorAll('.category-btn').forEach(btn =>
     {
+        btn.classList.remove("bg-green-600", "text-white", "active-category");
+        btn.classList.add("bg-gray-200"); 
         btn.classList.remove('active-category');
     });
-    buttonElement.classList.add('active-category');
+    // buttonElement.classList.add('active-category');
+     
+    clickedBtn.classList.remove("bg-gray-200");
+    clickedBtn.classList.add("bg-green-600", "text-white", "active-category");
+
     currentCategory = categoryId;
+    // Always show loading when switching categories
+    showTreesLoading();
 
     if (categoryId === 'all')
     {
         // loadAllPlants();
         renderTrees(plants);
-        // console.log(plants);
     } else
     {
         loadPlantsByCategory(categoryId);
@@ -91,7 +99,7 @@ function selectCategory(categoryId, buttonElement)
 //Load all Plants
 async function loadAllPlants()
 {
-    showTreesLoading();
+    // showTreesLoading();
     try
     {
         const response = await fetch(`https://openapi.programming-hero.com/api/plants`);
@@ -201,7 +209,7 @@ function renderTrees(treesData)
     });
     treesContainer.innerHTML = treesHTML;
 }
-loadCategories();
+
 //Get category name by id
 function getCategoryName(categoryId)
 {
