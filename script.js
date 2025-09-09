@@ -10,7 +10,7 @@ const treeModal = document.getElementById("tree-modal");
 const modalTitle = document.getElementById("modal-title");
 const modalContent = document.getElementById("modal-content");
 const closeModal = document.getElementById("close-modal");
- 
+
 // Global Variable
 let categories = [];
 let plants = [];
@@ -70,14 +70,16 @@ function renderCategories()
 function selectCategory(categoryId, clickedBtn)
 {
     // Update categories section
+    console.log({ categoryId, clickedBtn });
+    // return;
     document.querySelectorAll('.category-btn').forEach(btn =>
     {
         btn.classList.remove("bg-green-600", "text-white", "active-category");
-        btn.classList.add("bg-gray-200"); 
+        btn.classList.add("bg-gray-200");
         btn.classList.remove('active-category');
     });
     // buttonElement.classList.add('active-category');
-     
+
     clickedBtn.classList.remove("bg-gray-200");
     clickedBtn.classList.add("bg-green-600", "text-white", "active-category");
 
@@ -87,8 +89,14 @@ function selectCategory(categoryId, clickedBtn)
 
     if (categoryId === 'all')
     {
-        // loadAllPlants();
-        renderTrees(plants);
+        loadAllPlants();
+        fetch('https://openapi.programming-hero.com/api/plants')
+            .then(res => res.json())
+            .then(data =>
+            {
+                plants = data.plants;
+                renderTrees(plants);
+            });
     } else
     {
         loadPlantsByCategory(categoryId);
@@ -161,6 +169,9 @@ function hideTreesloading()
 
 function renderTrees(treesData)
 {
+
+    // console.log(treesData);
+    // return;
 
     hideTreesloading();
     if (!treesData || treesData.length === 0)
